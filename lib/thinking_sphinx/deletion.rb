@@ -8,6 +8,8 @@ class ThinkingSphinx::Deletion
       'plain' => PlainDeletion,
       'rt'    => RealtimeDeletion
     }[index.type].new(index, ids).perform
+  rescue ThinkingSphinx::IndexNotFoundError => error
+    # Index missing, possibly due to manual truncate/attach.
   rescue ThinkingSphinx::ConnectionError => error
     # This isn't vital, so don't raise the error.
   end
